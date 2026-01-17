@@ -1,5 +1,6 @@
 package com.apk.demo.model;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 import jakarta.persistence.Entity;
@@ -25,7 +26,7 @@ public class Transfer
 	private String type;
 	private Long fromAccount;
 	private Long toAccount;
-	private Double amount;
+	private BigDecimal amount;
 	private Date date;
 	
 }
