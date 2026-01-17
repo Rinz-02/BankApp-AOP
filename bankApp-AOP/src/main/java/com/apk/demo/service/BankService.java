@@ -69,7 +69,7 @@ public class BankService
 	private void saveTransaction(long fromId,Long toId, String type,Double amount)
 	{
 		//Error at id null value argument //quick fix type cast for null value
-		Transfer transfer = new Transfer((Long) null, type, fromId, toId, amount, new Date(System.currentTimeMillis()));
+		Transfer transfer = new Transfer(null, type, fromId, toId, amount, new Date(System.currentTimeMillis()));
 		transferRepo.save(transfer);
 	}
 	
