@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>History</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet"
+      		  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="flex flex-col items-center">
+	<header class="fixed top-0 left-0 w-full bg-blue-600 text-white shadow-md z-10">
+    <div class="flex justify-between items-center max-w-7xl mx-auto px-6 py-4">
+        <h1 class="text-2xl font-bold">Transaction History</h1>
+        <form th:action="@{/home}">
+            <button type="submit"
+                    class="bg-red-500 hover:bg-red-400 text-white px-4 py-2 rounded-md transition-colors duration-200">
+                <i class="fa-slab fa-regular fa-arrow-right"></i>
+            </button>
+        </form>
+    </div>
+	</header>
+	<main class="w-2/3 item-center mt-20">
+		<div class="overflow-x-auto bg-white shadow-md rounded-lg">
+		    <table class="min-w-full border border-gray-200">
+		        <thead class="bg-gray-100">
+		            <tr>
+		                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+		                    Type
+		                </th>
+		                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+		                    Amount
+		                </th>
+		                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+		                    Date
+		                </th>
+		                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+		                    Direction
+		                </th>
+		            </tr>
+		        </thead>
+		
+		        <tbody class="divide-y divide-gray-200">
+		            <tr th:each="history : ${histories}" class="hover:bg-gray-50 transition">
+		
+		                <!-- Transaction Type -->
+		                <td class="px-4 py-3 text-sm font-medium text-gray-800"
+		                    th:text="${history.type}">
+		                </td>
+		
+		                <!-- Amount -->
+		                <td class="px-4 py-3 text-sm font-semibold" 
+		                   	th:classappend="${history.type == 'DEPOSIT' ? ' text-green-600' :
+                     		(history.type == 'WITHDRAW' ? ' text-red-600' : ' text-gray-800')}"
+		                    th:text="${history.amount}">
+		                </td>
+		
+		                <!-- Date -->
+		                <td class="px-4 py-3 text-sm text-gray-600"
+		                    th:text="${history.date}">
+		                </td>
+		
+		                <!-- Direction -->
+		                <td class="px-4 py-3 text-sm font-semibold"
+		                    th:classappend="${history.fromAccount == session.LoggedIn.id ? 'text-red-500' : 'text-green-500'}"
+		                    th:text="${history.fromAccount == session.LoggedIn.id ? 'Outgoing' : 'Incoming'}">
+		                </td>
+		
+		            </tr>
+		        </tbody>
+		    </table>
+		</div>
+	</main>
+	
+</body>
+</html>

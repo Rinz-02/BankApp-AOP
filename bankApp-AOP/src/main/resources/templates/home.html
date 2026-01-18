@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bank Home</title>
+    <link rel="stylesheet"
+      		  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+<!-- Header -->
+<header class="fixed top-0 left-0 w-full bg-blue-600 text-white shadow-md z-10">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <h1 class="text-xl font-semibold">TryCatch Financial</h1>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit"
+                    class="bg-red-500 hover:bg-red-400 text-white px-4 py-2 rounded-md transition-colors duration-200">
+                <i class="fa-slab fa-regular fa-arrow-right-from-bracket"></i>
+            </button>
+        </form>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="flex justify-center  pt-24  w-full  px-6 h-full">
+
+    <!-- Left Side: Name & Balance -->
+    <div class=" w-1/3 bg-white h-full p-6 rounded-xl shadow-md flex flex-col space-y-4 flex-grow">
+        <div>
+            <h2 class="text-gray-700 text-lg font-medium">Account</h2>
+            <p class="text-gray-900 text-xl font-bold" th:text="${bank.name}"></p>
+        </div>
+        <div>
+            <h2 class="text-gray-700 text-lg font-medium">Balance</h2>
+            <p class="text-green-600 text-xl font-bold" th:text="${bank.amount}"></p>
+        </div>
+    </div>
+
+    <!-- Right Side: Actions -->
+    <div class="w-2/3 ml-6 grid grid-cols-2 gap-6">
+        <a th:href="@{'/withdraw/'+${bank.id}}" 
+           class="bg-blue-600 hover:bg-blue-400 text-white font-semibold py-6 rounded-lg text-center transition-colors duration-200">
+            Withdraw
+        </a>
+        <a th:href="@{'/deposit/'+${bank.id}}" 
+           class="bg-green-600 hover:bg-green-500 text-white font-semibold py-6 rounded-lg text-center transition-colors duration-200">
+            Deposit
+        </a>
+        <a th:href="@{/transfer}" 
+           class="bg-yellow-500 hover:bg-yellow-400 text-white font-semibold py-6 rounded-lg text-center transition-colors duration-200">
+            Transfer
+        </a>
+        <a th:href="@{/history}" 
+           class="bg-gray-600 hover:bg-gray-500 text-white font-semibold py-6 rounded-lg text-center transition-colors duration-200">
+            History
+        </a>
+    </div>
+</main>
+
+</body>
+</html>
