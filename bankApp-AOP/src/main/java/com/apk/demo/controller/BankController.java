@@ -24,9 +24,9 @@ public class BankController
 	
 	//Withdraw
 	@GetMapping("/withdraw/{id}")
-	public String withdraw(@PathVariable Long id, Model model)
+	public String withdraw(HttpSession session, Model model)
 	{
-		Bank bank = bankService.findById(id);
+		Bank bank = (Bank) session.getAttribute("LoggedIn");
 		model.addAttribute("bank", bank);
 		return "withdraw";
 	}
@@ -41,22 +41,49 @@ public class BankController
 	
 	//Deposit
 	@GetMapping("/deposit/{id}")
-	public String deposit(@PathVariable Long id, Model model)
+	public String deposit( Model model, HttpSession session)
 	{
-		Bank bank = bankService.findById(id);
+		Bank bank = (Bank) session.getAttribute("LoggedIn");
 		model.addAttribute("bank", bank);
 		return "deposit";
 	}
 	
 	@PostMapping("/deposit/{id}")
-	public String deposit(@RequestParam BigDecimal amount, @PathVariable Long id, HttpSession session)
+	public String deposit(@RequestParam BigDecimal amount, HttpSession session)
 	{
-		Bank updatedBank = bankService.deposite(amount, id);
+		Bank bank = (Bank) session.getAttribute("LoggedIn");
+		Bank updatedBank = bankService.deposite(amount, bank.getId());
 		session.setAttribute("LoggedIn", updatedBank);
 		return "redirect:/home";
 	}
 	
+	//Transfer
+	@GetMapping("/transfer")
+	public String transfer(Model model,HttpSession session)
+	{
+		Bank bank = (Bank) session.getAttribute("LoggedIn");
+		model.addAttribute("balance", bank.getAmount());
+		model.addAttribute("banks", bankService.findAllBanks());
+		return "transfer";
+	}
 	
+	@PostMapping("/transfer")
+	public String transfer(@RequestParam BigDecimal amount, @RequestParam Long toId, HttpSession session)
+	{
+		Bank fromBank = (Bank) session.getAttribute("LoggedIn");
+		Bank updatedBank = bankService.transfer(fromBank.getId(), toId, amount);
+		session.setAttribute("LoggedIn", updatedBank);
+		return "redirect:/home";
+	}
+	
+	//History
+	@GetMapping("/history")
+	public String getHistroy(Model model,HttpSession session)
+	{
+		Bank bank = (Bank) session.getAttribute("LoggedIn");
+		model.addAttribute("histories", bankService.getHistory(bank.getId()));
+		return "/history";
+	}
 	
 	
 	
